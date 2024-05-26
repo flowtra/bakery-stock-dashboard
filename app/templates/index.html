@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<head>
+    <title>Inventory</title>
+</head>
+<style>
+    .styled-table {
+        /*margin-right: auto;*/
+        /*margin-left: auto;*/
+        border-collapse: collapse;
+        /*margin: 25px 0;*/
+        margin: auto;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15)
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .input-box {
+        width: 50px
+    }
+
+</style>
+
+<body>
+    <form action="{{ url_for('refreshInvoices') }}" method="POST">
+        <input type="submit" value="Refresh Invoices">
+    </form>
+    <table id="data" class="styled-table">
+
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Sold</th>
+                <th>Avail</th>
+                <th>Bal</th>
+                <th>Change</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for row in table_data %}
+
+                <tr>
+                    <td>{{ row['ProductId'] }}</td>
+                    <td>{{ row['Name'] }}</td>
+                    <td>{{ row['orders'] }}</td>
+                    <td>{{ row['Stock'] }}</td>
+                    <td>{{ row['balance'] }}</td>
+                    <td>
+                        <div>
+                            <form action="{{ url_for('updateQty') }}" method="POST">
+                                <input name="qtyToAdd" value="" class="input-box" type="number">
+                                <input name="id" value="{{ row['ProductId'] }}" style="display: none">
+                                <input type="submit">
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</body>
+
